@@ -1,114 +1,109 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Ella 💘</title>
-  <style>
-    :root { --bg:#fff7fb; --card:#ffffff; --text:#1f1f1f; }
-    body{
-      margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      background: radial-gradient(1200px 600px at 50% 0%, #ffe3f1 0%, var(--bg) 45%, #fff 100%);
-      color:var(--text);
-      min-height:100vh; display:flex; align-items:center; justify-content:center;
-      padding:24px;
-    }
-    .card{
-      width:min(520px, 100%);
-      background:rgba(255,255,255,0.9);
-      border:1px solid rgba(0,0,0,0.06);
-      box-shadow: 0 18px 45px rgba(0,0,0,0.10);
-      border-radius:24px;
-      padding:28px;
-      text-align:center;
-    }
-    h1{ margin:0 0 10px; font-size:34px; letter-spacing:-0.5px; }
-    p{ margin:0 0 18px; font-size:16px; opacity:0.9; }
-    .heart{ font-size:42px; margin:10px 0 18px; }
-    .btns{ display:flex; gap:14px; justify-content:center; align-items:center; flex-wrap:wrap; margin-top:10px; }
-    button{
-      border:0; cursor:pointer; border-radius:999px;
-      padding:14px 22px; font-size:18px; font-weight:700;
-      transition: transform 140ms ease, box-shadow 140ms ease, left 140ms ease, top 140ms ease;
-      user-select:none;
-    }
-    #yes{
-      background:#ff3b7a; color:white;
-      box-shadow: 0 14px 30px rgba(255,59,122,0.28);
-      transform: scale(1);
-    }
-    #no{
-      background:#f2f2f2; color:#222;
-      box-shadow: 0 10px 22px rgba(0,0,0,0.10);
-      position:relative;
-    }
-    .note{ margin-top:18px; font-size:13px; opacity:0.7; }
-    .success h1{ font-size:32px; }
-    .success .btns{ display:none; }
-  </style>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>For You 💘</title>
+
+<style>
+body{
+  margin:0;
+  font-family: Arial, sans-serif;
+  background: #ffe6f2;
+  height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+.card{
+  background:white;
+  padding:30px;
+  border-radius:20px;
+  text-align:center;
+  box-shadow:0 10px 30px rgba(0,0,0,0.15);
+  position:relative;
+}
+
+button{
+  padding:14px 22px;
+  font-size:18px;
+  border:none;
+  border-radius:50px;
+  cursor:pointer;
+  margin:10px;
+}
+
+#yes{
+  background:#ff4d88;
+  color:white;
+  transform:scale(1);
+}
+
+#no{
+  background:#ddd;
+  position:absolute;
+}
+</style>
 </head>
+
 <body>
-  <div class="card" id="card">
-    <div class="heart">💘</div>
-    <h1>Ella, will you be my Valentine?</h1>
-    <p>(Be honest… but choose wisely 😅)</p>
 
-    <div class="btns">
-      <button id="yes">YES 💞</button>
-      <button id="no">NO 😐</button>
-    </div>
+<div class="card" id="card">
+  <h1>Ella, will you be my Valentine?</h1>
 
-    <div class="note">Made with love by Calvin</div>
-  </div>
+  <button id="yes">YES 💞</button>
+  <button id="no">NO 😐</button>
+</div>
 
-  <script>
-    const yes = document.getElementById("yes");
-    const no = document.getElementById("no");
-    const card = document.getElementById("card");
+<script>
+const yes = document.getElementById("yes");
+const no = document.getElementById("no");
+const card = document.getElementById("card");
 
-    let yesScale = 1;
-    let noClicks = 0;
+let yesSize = 1;
+let noSize = 1;
 
-    const taunts = [
-      "Are you sure? 😅",
-      "C’mon Ella… 😭",
-      "That’s wild. Try again 😤",
-      "You meant YES, right? 🥺",
-      "No button is getting tired…",
-      "Ok now you’re just playing 😂",
-      "Last chance… 😳",
-      "Yeah… I don’t think so 😈"
-    ];
+// Make NO run away from mouse
+document.addEventListener("mousemove", (e) => {
+  const rect = no.getBoundingClientRect();
+  const distance = Math.hypot(
+    e.clientX - (rect.left + rect.width/2),
+    e.clientY - (rect.top + rect.height/2)
+  );
 
-    function moveNoButton() {
-      const maxX = 140, maxY = 80;
-      const x = Math.floor((Math.random() * (maxX*2+1)) - maxX);
-      const y = Math.floor((Math.random() * (maxY*2+1)) - maxY);
-      no.style.left = x + "px";
-      no.style.top  = y + "px";
-    }
+  if (distance < 120) {
+    const cardRect = card.getBoundingClientRect();
 
-    no.addEventListener("click", () => {
-      noClicks++;
-      yesScale = Math.min(3.5, yesScale + 0.22);
-      yes.style.transform = `scale(${yesScale})`;
-      no.textContent = taunts[noClicks % taunts.length];
-      moveNoButton();
-      if (noClicks >= 10) {
-        no.textContent = "Ok ok… just hit YES 😩";
-      }
-    });
+    const maxX = cardRect.width - rect.width;
+    const maxY = cardRect.height - rect.height;
 
-    yes.addEventListener("click", () => {
-      card.classList.add("success");
-      card.innerHTML = `
-        <div class="heart">🎉💖🎉</div>
-        <h1>YESSSS!!</h1>
-        <p>Okay Ella… you’re officially my Valentine 😌</p>
-        <p style="margin-top:10px;font-weight:700;">🍆 Ice cream + a surprise is coming 🍆</p>
-        <div class="note" style="margin-top:18px;">Love, Calvin</div>
-      `;
-    });
-  </script>
+    const newX = Math.random() * maxX;
+    const newY = Math.random() * maxY;
+
+    no.style.left = newX + "px";
+    no.style.top = newY + "px";
+
+    // shrink NO each time
+    noSize = Math.max(0.4, noSize - 0.05);
+    no.style.transform = `scale(${noSize})`;
+
+    // grow YES
+    yesSize = Math.min(3.5, yesSize + 0.05);
+    yes.style.transform = `scale(${yesSize})`;
+  }
+});
+
+// When YES clicked
+yes.addEventListener("click", () => {
+  card.innerHTML = `
+    <h1>YESSSS!!</h1>
+    <p>Okay Ella… you're officially my Valentine 😊</p>
+    <p style="font-weight:bold;">🍆 Ice cream + a surprise is coming 🍆</p>
+    <p>Love, Calvin</p>
+  `;
+});
+</script>
+
 </body>
 </html>
