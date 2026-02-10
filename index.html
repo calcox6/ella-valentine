@@ -81,7 +81,6 @@
     ];
 
     function moveNoButton() {
-      // Make the NO button jump around a bit (still clickable)
       const maxX = 140, maxY = 80;
       const x = Math.floor((Math.random() * (maxX*2+1)) - maxX);
       const y = Math.floor((Math.random() * (maxY*2+1)) - maxY);
@@ -91,16 +90,10 @@
 
     no.addEventListener("click", () => {
       noClicks++;
-
-      // YES gets bigger each NO click
       yesScale = Math.min(3.5, yesScale + 0.22);
       yes.style.transform = `scale(${yesScale})`;
-
-      // Change NO text and make it scoot
       no.textContent = taunts[noClicks % taunts.length];
       moveNoButton();
-
-      // After enough clicks, basically force the vibe 😄
       if (noClicks >= 10) {
         no.textContent = "Ok ok… just hit YES 😩";
       }
@@ -112,11 +105,10 @@
         <div class="heart">🎉💖🎉</div>
         <h1>YESSSS!!</h1>
         <p>Okay Ella… you’re officially my Valentine 😌</p>
-        <p style="margin-top:10px;font-weight:700;">💐 Dinner + a surprise is coming 💐</p>
+        <p style="margin-top:10px;font-weight:700;">🍆 Ice cream + a surprise is coming 🍆</p>
         <div class="note" style="margin-top:18px;">Love, Calvin</div>
       `;
     });
   </script>
 </body>
 </html>
-
